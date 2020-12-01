@@ -70,6 +70,15 @@ class DomoAPIClient(object):
             raise Exception("Error deleting " + obj_desc + ": "
                             + response.text)
 
+    def _query(self, url, request, params, obj_desc):
+        response = self.transport.post(url=url, params=params, body=request)
+        if response.status_code == requests.codes.OK:
+            return response.json()
+        else:
+            self.logger.debug("Error querying " + obj_desc + ": "
+                              + self.transport.dump_response(response))
+            raise Exception("Error querying " + obj_desc + ": " + response.text)
+
     def _upload_csv(self, url, success_code, csv, obj_desc):
         response = self.transport.put_csv(url=url, body=csv)
         if response.status_code == success_code:

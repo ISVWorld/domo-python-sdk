@@ -103,6 +103,14 @@ class DataSetClient(DomoAPIClient):
                                 DATA_SET_DESC)
 
     """
+        Query a DataSet
+    """
+    def query(self, dataset_id, dataset_query):
+        url = '{base}/query/execute/{dataset_id}'.format(
+            base=URL_BASE, dataset_id=dataset_id)
+        return self._query(url, dataset_query, {}, DATA_SET_DESC)
+
+    """
         Export data to a CSV string (in-memory)
     """
     def data_export(self, dataset_id, include_csv_header):
